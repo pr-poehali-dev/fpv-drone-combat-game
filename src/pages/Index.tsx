@@ -273,7 +273,10 @@ const Index = () => {
                     <span className="text-yellow-400">{mission.timeOfDay}</span>
                   </span>
                 </div>
-                <Button className="w-full bg-red-600 hover:bg-red-700">
+                <Button
+                  className="w-full bg-red-600 hover:bg-red-700"
+                  onClick={() => setActiveSection("gameplay")}
+                >
                   НАЧАТЬ МИССИЮ
                 </Button>
               </div>
@@ -403,11 +406,169 @@ const Index = () => {
     </div>
   );
 
+  const renderGameplay = () => {
+    const [altitude, setAltitude] = useState(1200);
+    const [speed, setSpeed] = useState(85);
+    const [fuel, setFuel] = useState(78);
+    const [ammo, setAmmo] = useState(24);
+    const [targets, setTargets] = useState(3);
+
+    return (
+      <div className="min-h-screen bg-black text-white relative overflow-hidden">
+        {/* FPV Camera View */}
+        <div className="absolute inset-0">
+          <img
+            src="/img/20bf21dd-f08c-4c1e-bda9-d281cbb921b2.jpg"
+            alt="FPV View"
+            className="w-full h-full object-cover opacity-80"
+          />
+
+          {/* Overlay Scanlines Effect */}
+          <div
+            className="absolute inset-0 bg-gradient-to-b from-transparent via-green-500/5 to-transparent 
+                          bg-[length:100%_4px] bg-repeat-y opacity-40"
+          ></div>
+        </div>
+
+        {/* HUD Overlay */}
+        <div className="relative z-10 h-screen p-4">
+          {/* Top HUD */}
+          <div className="flex justify-between items-start">
+            {/* Top Left - Mission Info */}
+            <div className="bg-black/60 border border-green-400 p-3 rounded font-mono text-green-400">
+              <div className="text-sm">МИССИЯ: ESCORT КОНВОЯ</div>
+              <div className="text-xs">ЦЕЛИ: {targets} АКТИВНЫ</div>
+              <div className="text-xs">СТАТУС: В ПРОЦЕССЕ</div>
+            </div>
+
+            {/* Top Right - Drone Status */}
+            <div className="bg-black/60 border border-green-400 p-3 rounded font-mono text-green-400">
+              <div className="text-sm">BAYRAKTAR TB2</div>
+              <div className="text-xs">СИСТЕМА: ОНЛАЙН</div>
+              <div className="text-xs">СВЯЗЬ: СТАБИЛЬНА</div>
+            </div>
+          </div>
+
+          {/* Crosshair Center */}
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            <div className="relative">
+              {/* Main Crosshair */}
+              <div className="w-16 h-16 border-2 border-red-500 rounded-full relative">
+                <div className="absolute top-1/2 left-1/2 w-2 h-2 bg-red-500 rounded-full transform -translate-x-1/2 -translate-y-1/2"></div>
+                <div className="absolute top-0 left-1/2 w-0.5 h-4 bg-red-500 transform -translate-x-1/2 -translate-y-2"></div>
+                <div className="absolute bottom-0 left-1/2 w-0.5 h-4 bg-red-500 transform -translate-x-1/2 translate-y-2"></div>
+                <div className="absolute left-0 top-1/2 h-0.5 w-4 bg-red-500 transform -translate-y-1/2 -translate-x-2"></div>
+                <div className="absolute right-0 top-1/2 h-0.5 w-4 bg-red-500 transform -translate-y-1/2 translate-x-2"></div>
+              </div>
+
+              {/* Distance Indicator */}
+              <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-red-400 font-mono text-sm">
+                DIST: 850m
+              </div>
+            </div>
+          </div>
+
+          {/* Left HUD - Flight Data */}
+          <div className="absolute left-4 top-1/2 transform -translate-y-1/2 space-y-4">
+            <div className="bg-black/60 border border-green-400 p-3 rounded font-mono">
+              <div className="text-green-400 text-sm mb-2">ПОЛЕТНЫЕ ДАННЫЕ</div>
+              <div className="text-xs space-y-1">
+                <div className="flex justify-between">
+                  <span>ВЫСОТА:</span>
+                  <span className="text-yellow-400">{altitude}м</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>СКОРОСТЬ:</span>
+                  <span className="text-blue-400">{speed} км/ч</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>ТОПЛИВО:</span>
+                  <span
+                    className={fuel > 30 ? "text-green-400" : "text-red-400"}
+                  >
+                    {fuel}%
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span>БОЕПРИПАСЫ:</span>
+                  <span className="text-red-400">{ammo}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Compass */}
+            <div className="bg-black/60 border border-green-400 p-3 rounded font-mono text-center">
+              <div className="text-green-400 text-sm mb-2">КОМПАС</div>
+              <div className="text-yellow-400 text-2xl font-bold">N 045°</div>
+            </div>
+          </div>
+
+          {/* Right HUD - Weapons */}
+          <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
+            <div className="bg-black/60 border border-red-400 p-3 rounded font-mono">
+              <div className="text-red-400 text-sm mb-2">ВООРУЖЕНИЕ</div>
+              <div className="space-y-2 text-xs">
+                <div className="flex items-center justify-between">
+                  <span>HELLFIRE</span>
+                  <span className="text-green-400">ГОТОВ</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span>КАМЕРА</span>
+                  <span className="text-green-400">АКТИВНА</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span>ЛАЗЕР</span>
+                  <span className="text-yellow-400">НАВЕДЕНИЕ</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom HUD - Controls */}
+          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2">
+            <div className="flex gap-4">
+              <Button
+                className="bg-red-600/80 hover:bg-red-700 border border-red-400 font-mono"
+                onClick={() => setActiveSection("missions")}
+              >
+                <Icon name="Target" size={16} className="mr-2" />
+                FIRE
+              </Button>
+              <Button className="bg-yellow-600/80 hover:bg-yellow-700 border border-yellow-400 font-mono">
+                <Icon name="Camera" size={16} className="mr-2" />
+                ZOOM
+              </Button>
+              <Button className="bg-blue-600/80 hover:bg-blue-700 border border-blue-400 font-mono">
+                <Icon name="Navigation" size={16} className="mr-2" />
+                NAV
+              </Button>
+              <Button
+                className="bg-gray-600/80 hover:bg-gray-700 border border-gray-400 font-mono"
+                onClick={() => setActiveSection("missions")}
+              >
+                <Icon name="ArrowLeft" size={16} className="mr-2" />
+                ВЫХОД
+              </Button>
+            </div>
+          </div>
+
+          {/* Warning Messages */}
+          <div className="absolute top-20 left-1/2 transform -translate-x-1/2">
+            <div className="bg-red-900/80 border border-red-400 p-2 rounded font-mono text-red-400 text-sm animate-pulse">
+              ⚠️ ОБНАРУЖЕНА ЦЕЛЬ - ПЕРЕКЛЮЧЕНИЕ НА БОЕВОЙ РЕЖИМ
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <>
       {activeSection === "menu" && renderMenu()}
       {activeSection === "missions" && renderMissions()}
       {activeSection === "shop" && renderShop()}
+      {activeSection === "gameplay" && renderGameplay()}
     </>
   );
 };
