@@ -407,23 +407,32 @@ const Index = () => {
   );
 
   const renderGameplay = () => {
-    const [altitude, setAltitude] = useState(1200);
-    const [speed, setSpeed] = useState(85);
-    const [fuel, setFuel] = useState(78);
-    const [ammo, setAmmo] = useState(24);
-    const [targets, setTargets] = useState(3);
+    const altitude = 1200;
+    const speed = 85;
+    const fuel = 78;
+    const ammo = 24;
+    const targets = 3;
 
     return (
       <div className="min-h-screen bg-black text-white relative overflow-hidden">
-        {/* FPV Camera View */}
-        <div className="absolute inset-0">
-          <img
-            src="/img/20bf21dd-f08c-4c1e-bda9-d281cbb921b2.jpg"
-            alt="FPV View"
-            className="w-full h-full object-cover opacity-80"
-          />
+        {/* FPV Camera Background */}
+        <div className="absolute inset-0 bg-gradient-to-b from-gray-800 via-gray-900 to-black">
+          {/* Military Grid Pattern */}
+          <div
+            className="absolute inset-0 opacity-20"
+            style={{
+              backgroundImage:
+                "linear-gradient(rgba(34, 197, 94, 0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(34, 197, 94, 0.3) 1px, transparent 1px)",
+              backgroundSize: "50px 50px",
+            }}
+          ></div>
 
-          {/* Overlay Scanlines Effect */}
+          {/* Simulated Thermal Vision */}
+          <div className="absolute inset-0">
+            <div className="w-full h-full bg-gradient-radial from-green-900/30 via-transparent to-red-900/20"></div>
+          </div>
+
+          {/* Scanlines Effect */}
           <div
             className="absolute inset-0 bg-gradient-to-b from-transparent via-green-500/5 to-transparent 
                           bg-[length:100%_4px] bg-repeat-y opacity-40"
